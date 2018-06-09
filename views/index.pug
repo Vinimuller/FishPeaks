@@ -1,0 +1,14 @@
+doctype html
+html(lang="en")
+  head
+    title= title
+    script(type='text/javascript').
+      if (foo) bar(1 + 5)
+  body
+    h1 Fish's Place is at #{fishTemperature} degrees Celsius
+    #container.col
+      if relayStatus
+        p Fish is getting warmer :)
+      else
+        p Fish is getting colder :(
+    p #{date} 
