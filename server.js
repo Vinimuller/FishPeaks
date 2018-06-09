@@ -30,8 +30,12 @@ var client = mqtt.connect('mqtt:iot.eclipse.org:1883');
 app.set('view engine', 'pug')
 
 app.get('/', function (req, res) {
+  date = new Date();
+  date.setHours(date.getHours()-3);
+  var dateStr = date.toUTCString();
+
   res.render('index', { title: 'Fish Peaks', fishTemperature: fishData.fishTemperature, 
-  	relayStatus: fishConfig.relayStatus, date: date.toLocaleString()})
+  	relayStatus: fishConfig.relayStatus, date: dateStr})
 })
 
 // Start the app by listening on the default Heroku port
