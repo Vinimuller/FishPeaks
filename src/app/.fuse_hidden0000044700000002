@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 
 export class AppComponent {
-  private url   = 'https://fishpeaks.herokuapp.com/';
+  private url   = 'http://192.168.0.36:5000';
 
   public fishConfig = {
     setPointTemperature:      28,
