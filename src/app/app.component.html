@@ -4,11 +4,12 @@
     Welcome to Fish's House!
   </h1>
 </div>
-<h2 style="text-align:center">It is {{ temperature }} degrees Celsius inside</h2>
-<ul>
-  <li>
-    <button (click)="getFishData()">getData</button>
-    <button (click)="getFishConfig()">getConfig</button>
-  </li>
-</ul>
+<h2 style="text-align:center">It is {{ fishData.fishTemperature }} degrees Celsius inside</h2>
+<div style="text-align:center">
+  <img src="http://icons.iconarchive.com/icons/martin-berube/flat-animal/256/gold-fish-icon.png" width="150">
+</div>
+<div style="text-align:center">
+    <button  (click)="getFishData()">getData</button>
+    <button  (click)="getFishConfig()">getConfig</button>
+</div>
 

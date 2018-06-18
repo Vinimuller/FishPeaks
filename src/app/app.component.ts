@@ -1,63 +1,56 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
-  url   = 'http://192.168.0.36:5000';
-  temperature: number = 28;
+  private url   = 'http://192.168.0.36:5000';
 
-/*
   public fishConfig = {
-  setPointTemperature:      0,
-  upperDeadBandTemperature: 0,
-  lowerDeadBandTemperature: 0,
-  temperature_a_coeficient: 0,
-  temperature_b_coeficient: 0,
-  autoTemperatureControl:   false,
-  relayStatus:              false,
-  leds:                     false,
-  sendDataInterval:         60   
+    setPointTemperature:      28,
+    upperDeadBandTemperature: 0,
+    lowerDeadBandTemperature: 0,
+    temperature_a_coeficient: 0,
+    temperature_b_coeficient: 0,
+    autoTemperatureControl:   false,
+    relayStatus:              false,
+    leds:                     false,
+    sendDataInterval:         60   
   };
-*/
 
-  public tico: any;
+  public fishData = {
+    fishTemperature:          0,
+    airTemperature:           0,
+    airHumidity:              0
+  };
 
-  constructor(public ref: ChangeDetectorRef, 
-    private http: HttpClient) { };
 
-
-  successGet(Response)
-  {
-      console.log(Response);
-      
-      this.tico = Response;
-
-      this.temperature = this.tico.fishTemperature;
-
-      this.ref.markForCheck();
-      //this.temperature = this.tico.fishTemperature;
-      
-      console.log("tico " + this.tico.fishTemperature);
-      console.log("temp " + this.temperature);
-  }
+  constructor( private http: HttpClient) { };
 
   getFishData() 
   {    
-    this.http.get(this.url + "/fishData").subscribe(this.successGet,function(error){
-      console.log(error);
+    this.http.get(this.url + "/fishData").subscribe(function(response){
+      console.log("/fishData: " + JSON.stringify(response));
+      this.fishData = response;
+
+    },function(error){
+      console.log("error /fishData: " + error);
     });
   }
 
   getFishConfig() 
   {
-    console.log("temp " + this.temperature);    
-    this.temperature = 10;
+    this.http.get(this.url + "/fishConfig").subscribe(function(response){
+      console.log("/fishConfig: " + JSON.stringify(response));
+      this.fishConfig = response;
+
+    },function(error){
+      console.log("error /fishConfig: " + error);
+    });
   }
 }

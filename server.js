@@ -34,12 +34,11 @@ app.use(express.static(__dirname + '/dist/fishpeaks'));
 
 app.get('/', function(req,res) {
    res.sendFile('index.html', { root: __dirname + "/dist/fishpeaks/"}); 
-//res.sendFile(path.join(__dirname+'/dist/fishpeaks/index.html'));
 });
 
 app.get('/fishData', function(req,res) {
     console.log("/fishData");
-    res.send(JSON.stringify(fishData)); 
+    res.json(fishData); 
 });
 
 app.get('/fishConfig', function(req,res) {
