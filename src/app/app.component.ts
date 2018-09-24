@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpServiceService } from './http-service.service'
+
+interface myData {
+  fishTemperature:   number,
+  airTemperature:    number,
+  airHumidity:       number,
+  lastReceived:   "Date"
+}
 
 
 @Component({
@@ -23,34 +30,24 @@ export class AppComponent {
     sendDataInterval:         60   
   };
 
-  public fishData = {
-    fishTemperature:          0,
-    airTemperature:           0,
-    airHumidity:              0
+  fishData = {
+    fishTemperature: 20,
+    airTemperature:  0,
+    airHumidity:     0,
+    lastReceived:    "Date"
+  }
+
+  constructor( private service: HttpServiceService) { 
+
   };
 
-
-  constructor( private http: HttpClient) { };
-
-  getFishData() 
-  {    
-    this.http.get(this.url + "/fishData").subscribe(function(response){
-      console.log("/fishData: " + JSON.stringify(response));
-      this.fishData = response;
-
-    },function(error){
-      console.log("error /fishData: " + error);
+  ngOnInit(){
+    this.service.getData().subscribe(data => {
+      console.log("/fishData: " + data);
+      this.fishData = data;
+      console.log(this.fishData.lastReceived);
     });
+
   }
 
-  getFishConfig() 
-  {
-    this.http.get(this.url + "/fishConfig").subscribe(function(response){
-      console.log("/fishConfig: " + JSON.stringify(response));
-      this.fishConfig = response;
-
-    },function(error){
-      console.log("error /fishConfig: " + error);
-    });
-  }
 }

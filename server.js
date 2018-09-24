@@ -9,7 +9,7 @@ var nodemailer = require('nodemailer');
 var aux = 0;
 var lastData, lastStatus;
 var minFishTemp = 26;
-var maxFishTemp = 29.5;
+var maxFishTemp = 30;
 var fishConfig = {
   "setPointTemperature":      28,
   "upperDeadBandTemperature": 0.8,
@@ -24,7 +24,8 @@ var fishConfig = {
 var fishData = {
   "fishTemperature":          0,
   "airTemperature":           0.0,   
-  "airHumidity":              0
+  "airHumidity":              0,
+  "lastReceived":             "Date"
 };
 
 
@@ -65,13 +66,14 @@ var transporter = nodemailer.createTransport({
 
 var mailOptions = {
   from: 'vinig.n.r@hotmail.com',
-  to: 'vinicius@raks.com.br',
+  to: 'vini.s.muller@gmail.com,julia_giacomini@hotmail.com',
   subject: 'Warning from Fish',
-  text: 'Howly, it is hot here'
+  text: 'Howly, it is glub hot here'
 };
 
-//--------------------------------------------------------------------------------->> Functions
 
+
+//--------------------------------------------------------------------------------->> Functions
 var setFishConfig = function(fishConfig) {
   console.log("publishing: " + JSON.stringify(fishConfig) + "\n");
 
@@ -128,21 +130,19 @@ client.on("offline", function(err) {
 client.on('message', function(topic, message) { 
 
   var auxDate = new Date();
-
-  console.log("Fish says: " + topic + " | " + message.toString()); // message is Buffer   
  
   if(topic == "U7886zhUcV_fish_house/data/fishtemp")
   {
+    console.log("Fish says: " + topic + " | " + message.toString()); // message is Buffer   
     fishData = JSON.parse(message.toString());
-    lastData = auxDate;
+    fishData.lastReceived = auxDate.toString();
+    console.log(fishData.lastReceived);
   }
   if(topic == "U7886zhUcV_fish_house/config/tx")
   {
     fishStatus = JSON.parse(message.toString());
     lastStatus = auxDate;
   }
-
-  console.log("Status: " + lastStatus + "Data: " + lastData);
 
   if((fishData.fishTemperature > maxFishTemp) || (fishData.fishTemperature < minFishTemp)){
     mailOptions.text = "Something is wrong with my lil home, it's " + fishData.fishTemperature + "C inside";
