@@ -135,7 +135,7 @@ client.on('message', function(topic, message) {
   {
     console.log("Fish says: " + topic + " | " + message.toString()); // message is Buffer   
     fishData = JSON.parse(message.toString());
-    fishData.lastReceived = auxDate.toString();
+    fishData.lastReceived = auxDate.toString(); 
     console.log(fishData.lastReceived);
   }
   if(topic == "U7886zhUcV_fish_house/config/tx")

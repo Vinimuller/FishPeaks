@@ -17,6 +17,6 @@ export class HttpServiceService {
   constructor(private http: HttpClient) { }
   
   getData(){
-  	return this.http.get<myData>("http://localhost:8080"+ "/fishData");
+  	return this.http.get<myData>("https://fishpeaks.herokuapp.com"+ "/fishData");
   }
 }
